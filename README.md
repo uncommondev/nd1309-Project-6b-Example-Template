@@ -1,3 +1,27 @@
+# TA Write Up
+
+## Mini Brief
+
+UdaCoffee is a blockchain Proof-of-Concept for tracking how your coffee beans arrive from Farmer to Consumer
+
+## Diagrams
+
+### Activity Diagram
+![Activity Diagram](images/UdaCoffeeUML-Activity-Diagram.jpg)
+### Sequence Diagram
+![Sequence Diagram](images/UdaCoffeeUML-Sequence-Diagram.jpg)
+### State Diagram
+![State Diagram](images/UdaCoffeeUML-State-Diagram.jpg)
+### Data Modeling
+![Data Modeling](images/UdaCoffeeUML-Data-Modeling.jpg)
+
+## Versions Used:
+
+Truffle: v4.1.14
+Solidity: v0.4.24
+OpenZeppelin: N/A - Contracts Provided In Boilerplate Code
+IPFS: N/A - Not used in this project
+
 # Supply chain & data auditing
 
 This repository containts an Ethereum DApp that demonstrates a Supply Chain flow between a Seller and Buyer. The user story is similar to any commonly used supply chain process. A Seller can add items to the inventory system stored in the blockchain. A Buyer can purchase such items from the inventory system. Additionally a Seller can mark an item as Shipped, and similarly a Buyer can mark an item as Received.
