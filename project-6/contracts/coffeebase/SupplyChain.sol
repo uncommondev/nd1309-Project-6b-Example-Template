@@ -156,11 +156,12 @@ contract SupplyChain {
   function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
   {
     // Add the new item as part of Harvest
-    items[_upc] = Item(sku, _upc, msg.sender, _originFarmerID, _originFarmName, _originFarmInformation, _originFarmLatitude, _originFarmLongitude, _productNotes, 0, Harvested, address(0), address(0), address(0));
+    uint _productID = _upc + sku;
+    items[_upc] = Item(sku, _upc, msg.sender, _originFarmerID, _originFarmName, _originFarmInformation, _originFarmLatitude, _originFarmLongitude, _productID, _productNotes, 0, State.Harvested, address(0), address(0), address(0));
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
-    Harvested(_upc);
+    emit Harvested(_upc);
   }
 
   // Define a function 'processtItem' that allows a farmer to mark an item 'Processed'
@@ -168,9 +169,9 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     // Call modifier to verify caller of this function
     // Update the appropriate fields
-    items[_upc].itemState = Processed;
+    items[_upc].itemState = State.Processed;
     // Emit the appropriate event
-    Processed(_upc);
+    emit Processed(_upc);
   }
 
   // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
@@ -178,26 +179,26 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     // Call modifier to verify caller of this function
     // Update the appropriate fields
-    items[_upc].itemState = Packed;
+    items[_upc].itemState = State.Packed;
     // Emit the appropriate event
-    Packed(_upc);
+    emit Packed(_upc);
   }
 
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
-  function sellItem(uint _upc, uint _price) public packed(_upc) verifyCaller paidEnough(_price) {
+  function sellItem(uint _upc, uint _price) public packed(_upc) verifyCaller(items[_upc].ownerID) paidEnough(_price) {
     // Call modifier to check if upc has passed previous supply chain stage
     // Call modifier to verify caller of this function
     // Call modifier to check if the paid amount is sufficient to cover the price
     // Update the appropriate fields
-    items[_upc].itemState = ForSale;
+    items[_upc].itemState = State.ForSale;
     // Emit the appropriate event
-    ForSale(_upc);
+    emit ForSale(_upc);
   }
 
   // Define a function 'buyItem' that allows the disributor to mark an item 'Sold'
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough, 
   // and any excess ether sent is refunded back to the buyer
-  function buyItem(uint _upc) public payable ForSale(_upc) paidEnough(items[_upc].productPrice) verifyCaller checkValue(_upc)  {{ 
+  function buyItem(uint _upc) public payable forSale(_upc) paidEnough(items[_upc].productPrice) verifyCaller(items[_upc].ownerID) checkValue(_upc) { 
     // Call modifier to check if upc has passed previous supply chain stage
     // Call modifer to check if buyer has paid enough
     // Call modifer to send any excess ether back to buyer
@@ -206,7 +207,7 @@ contract SupplyChain {
     items[_upc].distributorID = msg.sender;
     items[_upc].itemState = State.Sold;
     // Transfer money to farmer
-    payable(items[_upc].originFarmerID).transfer(items[_upc].productPrice);
+    items[_upc].originFarmerID.transfer(items[_upc].productPrice);
     // emit the appropriate event
     emit Sold(_upc);
     
@@ -218,9 +219,9 @@ contract SupplyChain {
     // Call modifier to check if upc has passed previous supply chain stage
     // Call modifier to verify caller of this function
     // Update the appropriate fields
-    items[_upc].itemState = Shipped;
+    items[_upc].itemState = State.Shipped;
     // Emit the appropriate event
-    Shipped(_upc);
+    emit Shipped(_upc);
   }
 
   // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
@@ -231,9 +232,9 @@ contract SupplyChain {
     // Update the appropriate fields - ownerID, retailerID, itemState
     items[_upc].ownerID = msg.sender;
     items[_upc].retailerID = msg.sender;
-    items[_upc].itemState = Received;
+    items[_upc].itemState = State.Received;
     // Emit the appropriate event
-    emit Recieved(_upc);
+    emit Received(_upc);
     
   }
 
@@ -245,9 +246,9 @@ contract SupplyChain {
     // Update the appropriate fields - ownerID, consumerID, itemState
     items[_upc].ownerID = msg.sender;
     items[_upc].retailerID = msg.sender;
-    items[_upc].itemState = Purchased;
+    items[_upc].itemState = State.Purchased;
     // Emit the appropriate event
-    Purchased(_upc);
+    emit Purchased(_upc);
     
   }
 
