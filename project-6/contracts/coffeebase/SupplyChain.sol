@@ -153,11 +153,10 @@ contract SupplyChain {
   }
 
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
-  function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public 
+  function harvestItem(uint _upc, address ownerID, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string _originFarmLongitude, uint _productID, string _productNotes, uint _productPrice) public 
   {
     // Add the new item as part of Harvest
-    uint _productID = _upc + sku;
-    items[_upc] = Item(sku, _upc, msg.sender, _originFarmerID, _originFarmName, _originFarmInformation, _originFarmLatitude, _originFarmLongitude, _productID, _productNotes, 0, State.Harvested, address(0), address(0), address(0));
+    items[_upc] = Item(sku, _upc, ownerID, _originFarmerID, _originFarmName, _originFarmInformation, _originFarmLatitude, _originFarmLongitude, _productID, _productNotes, _productPrice, State.Harvested, address(0), address(0), address(0));
     // Increment sku
     sku = sku + 1;
     // Emit the appropriate event
@@ -185,12 +184,13 @@ contract SupplyChain {
   }
 
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
-  function sellItem(uint _upc, uint _price) public packed(_upc) verifyCaller(items[_upc].ownerID) paidEnough(_price) {
+  function sellItem(uint _upc, uint _price) public packed(_upc) verifyCaller(items[_upc].ownerID) {
     // Call modifier to check if upc has passed previous supply chain stage
     // Call modifier to verify caller of this function
     // Call modifier to check if the paid amount is sufficient to cover the price
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
+    items[_upc].productPrice = _price;
     // Emit the appropriate event
     emit ForSale(_upc);
   }
@@ -266,8 +266,15 @@ contract SupplyChain {
   ) 
   {
   // Assign values to the 8 parameters
+  itemSKU = items[_upc].sku;
+  itemUPC = items[_upc].upc;
+  ownerID = items[_upc].ownerID;
+  originFarmerID = items[_upc].originFarmerID;
+  originFarmName = items[_upc].originFarmName;
+  originFarmInformation = items[_upc].originFarmInformation;
+  originFarmLatitude = items[_upc].originFarmLatitude;
+  originFarmLongitude = items[_upc].originFarmLongitude;
   
-    
   return 
   (
   itemSKU,
@@ -296,8 +303,16 @@ contract SupplyChain {
   ) 
   {
     // Assign values to the 9 parameters
+    itemSKU = items[_upc].sku;
+    itemUPC = items[_upc].upc;
+    productID = items[_upc].productID;
+    productNotes = items[_upc].productNotes;
+    productPrice = items[_upc].productPrice;
+    itemState = uint(items[_upc].itemState);
+    distributorID = items[_upc].distributorID;
+    retailerID = items[_upc].retailerID;
+    consumerID = items[_upc].consumerID;
   
-    
   return 
   (
   itemSKU,
