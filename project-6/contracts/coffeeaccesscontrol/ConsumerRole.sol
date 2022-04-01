@@ -8,8 +8,8 @@ contract ConsumerRole {
   using Roles for Roles.Role;
 
   // Define 2 events, one for Adding, and other for Removing
-  event AddedConsumer(address indexed account);
-  event RemovedConsumer(address indexed account);
+  event ConsumerAdded(address indexed account);
+  event ConsumerRemoved(address indexed account);
 
   // Define a struct 'consumers' by inheriting from 'Roles' library, struct Role
   Roles.Role private consumers;
@@ -21,7 +21,7 @@ contract ConsumerRole {
 
   // Define a modifier that checks to see if msg.sender has the appropriate role
   modifier onlyConsumer() {
-    require(isConsumer(msg.sender));
+    require(isConsumer(msg.sender), "Only a consumer can perform this action");
     _;
   }
 
@@ -31,7 +31,7 @@ contract ConsumerRole {
   }
 
   // Define a function 'addConsumer' that adds this role
-  function addConsumer(address account) public onlyConsumer {
+  function addConsumer(address account) public {
     _addConsumer(account);
   }
 
@@ -43,12 +43,12 @@ contract ConsumerRole {
   // Define an internal function '_addConsumer' to add this role, called by 'addConsumer'
   function _addConsumer(address account) internal {
     consumers.add(account);
-    emit AddedConsumer(account);
+    emit ConsumerAdded(account);
   }
 
   // Define an internal function '_removeConsumer' to remove this role, called by 'removeConsumer'
   function _removeConsumer(address account) internal {
     consumers.remove(account);
-    emit RemovedConsumer(account);
+    emit ConsumerRemoved(account);
   }
 }
