@@ -55,8 +55,7 @@ contract('SupplyChain', function(accounts) {
             eventEmitted = true
         })
         // Add Account [1] to Farmer Role
-        await supplyChain.addFarmer(originFarmerID) //farmerRole.addFarmer(originFarmerID)
-        // Check if the account has been added
+        await supplyChain.addFarmer(originFarmerID)
         
         const result = await supplyChain.isFarmer(originFarmerID)
         //const result = await farmerRole.isFarmer(originFarmerID)
@@ -378,6 +377,89 @@ contract('SupplyChain', function(accounts) {
         // Verify the result set:
         assert.equal(resultBufferTwo[5], 7, 'Error: Invalid item State')
         
+    })
+
+    // Remove the accounts to the specified roles
+    // Farmer Role
+    it("Should remove account[1] to the Farmers", async() => {
+        const supplyChain = await SupplyChain.deployed()
+
+        // Declare and Initialize a variable for event
+        var eventEmitted = false
+        
+        // Watch the emitted event FarmerRemoved()
+        var event = supplyChain.FarmerRemoved()
+        await event.watch((err, res) => {
+            eventEmitted = true
+        })
+        // Add Account [1] to Farmer Role
+        await supplyChain.renounceFarmer({ from: originFarmerID })
+        // Check if the account has been Removed
+        
+        const result = await supplyChain.isFarmer(originFarmerID)
+        
+        // Verify the result
+        assert.equal(result, false, "Error: Farmer Role not removed")
+        assert.equal(eventEmitted, true, 'Invalid event emitted')
+    })
+
+    // Distributor Role
+    it("Should remove account[2] to the Distributors", async () => {
+        const supplyChain = await SupplyChain.deployed()
+        // Declare and Initialize a variable for event
+        var eventEmitted = false
+
+        // Watch the emitted event DistributorRemoved()
+        var event = supplyChain.DistributorRemoved()
+        await event.watch((err, res) => {
+            eventEmitted = true
+        })
+        // Add Account [2] to Distributor Role
+        await supplyChain.renounceDistributor({ from: distributorID })
+        // Check if the account has been Removed
+        const result = await supplyChain.isDistributor(distributorID)
+        // Verify the result
+        assert.equal(result, false, "Error: Distributor Role not removed")
+        assert.equal(eventEmitted, true, 'Invalid event emitted')
+    })
+
+    // Retailer Role
+    it("Should remove account[3] to the Retailers", async () => {
+        const supplyChain = await SupplyChain.deployed()
+        // Declare and Initialize a variable for event
+        var eventEmitted = false
+
+        // Watch the emitted event RetailerRemoved()
+        var event = supplyChain.RetailerRemoved()
+        await event.watch((err, res) => {
+            eventEmitted = true
+        })
+        // Add Account [3] to Retailer Role
+        await supplyChain.renounceRetailer({ from:retailerID })
+        // Check if the account has been Removed
+        const result = await supplyChain.isRetailer(retailerID)
+        // Verify the result
+        assert.equal(result, false, "Error: Retailer Role not removed")
+        assert.equal(eventEmitted, true, 'Invalid event emitted')
+    })
+    // Consumer Role
+    it("Should remove account[4] to the Consumers", async () => {
+        var supplyChain = await SupplyChain.deployed()
+        // Declare and Initialize a variable for event
+        var eventEmitted = false
+
+        // Watch the emitted event ConsumerRemoved()
+        var event = supplyChain.ConsumerRemoved()
+        await event.watch((err, res) => {
+            eventEmitted = true
+        })
+        // Add Account [4] to Consumer Role
+        await supplyChain.renounceConsumer({ from: consumerID })
+        // Check if the account has been Removed
+        const result = await supplyChain.isConsumer(consumerID)
+        // Verify the result
+        assert.equal(result, false, "Error: Consumer Role not removed")
+        assert.equal(eventEmitted, true, 'Invalid event emitted')
     })
 
 });
