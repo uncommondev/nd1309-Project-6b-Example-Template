@@ -32,6 +32,7 @@ App = {
         App.originFarmInformation = $("#originFarmInformation").val();
         App.originFarmLatitude = $("#originFarmLatitude").val();
         App.originFarmLongitude = $("#originFarmLongitude").val();
+        App.productId = $("#productId").val();
         App.productNotes = $("#productNotes").val();
         App.productPrice = $("#productPrice").val();
         App.distributorID = $("#distributorID").val();
@@ -100,6 +101,7 @@ App = {
     initSupplyChain: function () {
         /// Source the truffle compiled smart contracts
         var jsonSupplyChain='../../build/contracts/SupplyChain.json';
+        web3.eth.defaultAccount = web3.eth.accounts[0];
         
         /// JSONfy the smart contracts
         $.getJSON(jsonSupplyChain, function(data) {
@@ -164,19 +166,23 @@ App = {
     },
 
     harvestItem: function(event) {
-        event.preventDefault();
-        var processId = parseInt($(event.target).data('id'));
+        //event.preventDefault();
+        //var processId = parseInt($(event.target).data('id'));
 
         App.contracts.SupplyChain.deployed().then(function(instance) {
             return instance.harvestItem(
                 App.upc, 
-                App.metamaskAccountID, 
+                App.ownerID, 
+                App.metamaskAccountID,
                 App.originFarmName, 
                 App.originFarmInformation, 
                 App.originFarmLatitude, 
-                App.originFarmLongitude, 
-                App.productNotes
-            );
+                App.originFarmLongitude,
+                App.productId, 
+                App.productNotes,
+                App.productPrice
+            ); 
+            // uint _upc, address ownerID, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string _originFarmLongitude, uint _productID, string _productNotes, uint _productPrice
         }).then(function(result) {
             $("#ftc-item").text(result);
             console.log('harvestItem',result);
