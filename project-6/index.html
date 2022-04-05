@@ -35,6 +35,7 @@
         </div>
         <div class=form-break></div>
         <h2>Farm Details</h2>
+        <h4>Harvest Coffee</h4>
         <div class="form-group">
             Farmer ID
             <br>
@@ -63,41 +64,138 @@
             <input type="text" id="productNotes" name="productNotes" value="UdaCoffee Eth-presso Blend"><br>
             <br>
             <button class="btn-harvest" id="button" type="button" data-id="1" onClick="App.harvestItem()">Harvest</button>
-            <button class="btn-process" id="button" type="button" data-id="2" onClick="App.processItem()">Process</button>
-            <button class="btn-pack" id="button" type="button" data-id="3" onClick="App.packItem()">Pack</button>
-            <button class="btn-forsale" id="button" type="button" data-id="4" onClick="App.sellItem()">ForSale</button>
         </div>
-        <div class=form-break></div>
-        <h2>Product Details</h2>
-        <div class="form-group">
-            Product Notes
+        <h4>Process Coffee</h4>
+        <div class=form-group>
+            UPC
             <br>
-            <input type="text" id="productNotes" name="productNotes" value="Best beans for Espresso" size="60"><br>
+            <input type="number" id="upc" name="upc" value=1><br>
+            <br>
+            <button class="btn-process" id="button" type="button" data-id="2" onClick="App.processItem()">Process</button>
+        </div>
+        <h4>Pack Coffee</h4>
+        <div class=form-group>
+            UPC
+            <br>
+            <input type="number" id="upc" name="upc" value=1><br>
+            <br>
+            <button class="btn-pack" id="button" type="button" data-id="3" onClick="App.packItem()">Pack</button>
+        </div>
+        <h4>Sell Coffee</h4>
+        <div class=form-group>
+            UPC
+            <br>
+            <input type="number" id="upc" name="upc" value=1><br>
+            <br>
             Product Price
             <br>
-            <input type="number" id="productPrice" name="productPrice" value=1>ETH<br>
-            Distributor ID
+            <input type="text" id="productPrice" name="productPrice" value="1"><br>
+            <button class="btn-forsale" id="button" type="button" data-id="4" onClick="App.sellItem()">ForSale</button>
+        </div>
+        <h2>Product Details</h2>
+        <h4>Buy Coffee</h4>
+        <div class="form-group">
+            UPC
             <br>
-            <input type="text" id="distributorID" name="distributorID" value="0xf1b1bcd24dad92303dd9fe78be639f7bcf9c238d"
-                size="50">
+            <input type="number" id="upc" name="upc" value=1><br>
             <br>
-            Retailer ID
+            <button class="btn-buy" id="button" type="button" data-id="5" onClick="App.buyItem()">Buy</button>  
+        </div>
+        <h4>Ship Coffee</h4>
+        <div class=form-group>
+            UPC
             <br>
-            <input type="text" id="retailerID" name="retailerID" value="0x0fb2bfefd526966c87efa19f6693d50971763fc2"
-                size="50"><br>
-            Distributor ID
+            <input type="number" id="upc" name="upc" value=1><br>
             <br>
-            <input type="text" id="consumerID" name="consumerID" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
-                size="50"><br>
-            <br>
-            <button class="btn-buy" id="button" type="button" data-id="5" onClick="App.buyItem()">Buy</button>
             <button class="btn-ship" id="button" type="button" data-id="6" onClick="App.shipItem()">Ship</button>
+        </div>
+        <h4>Receive Coffee</h4>
+        <div class=form-group>
+            UPC
+            <br>
+            <input type="number" id="upc" name="upc" value=1><br>
+            <br>
             <button class="btn-receive" id="button" type="button" data-id="7" onClick="App.receiveItem()">Receive</button>
+        </div>
+        <h4>Purchase Coffee</h4>
+        <div class=form-group>
+            UPC
+            <br>
+            <input type="number" id="upc" name="upc" value=1><br>
+            <br>
             <button class="btn-purchase" id="button" type="button" data-id="8" onClick="App.purchaseItem()">Purchase</button>
         </div>
         <div class=form-break></div>
         <hr>
     </div>
+    
+    <!-- Adding Roles -->
+    <h2>Add Accounts to Roles</h2>
+    <h4>Add Farmer</h4>
+    <div class="form-group">
+        Address
+        <br>
+        <input type="text" id="farmerRoleId" name="farmerRoleId" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
+            size="50"><br>
+        <br>
+        <button class="btn-buy" id="button" type="button" data-id="5" onClick="App.addFarmer()">Add Farmer</button>  
+    </div>
+    <h4>Add Distributor</h4>
+    <div class=form-group>
+        Address
+        <br>
+        <input type="text" id="distributorRoleId" name="distributorRoleId" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
+        size="50"><br>  
+        <br>
+        <button class="btn-buy" id="button" type="button" data-id="5" onClick="App.addDistributor()">Add Distributor</button>  
+    </div>
+    <h4>Add Retailer</h4>
+    <div class=form-group>
+        Address
+        <br>
+        <input type="text" id="retailerRoleId" name="retailerRoleId" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
+        size="50"><br>  
+        <br>
+        <button class="btn-receive" id="button" type="button" data-id="7" onClick="App.addRetailer()">Add Retailer</button>
+    </div>
+    <h4>Add Consumer</h4>
+    <div class=form-group>
+        Address
+        <br>
+        <input type="text" id="consumerRoleId" name="consumerRoleId" value="0x5d777e9127b28fb119e81a6304278a0a21bef1c4"
+        size="50"><br>        
+        <br>
+        <button class="btn-purchase" id="button" type="button" data-id="8" onClick="App.addConsumer()">Add Consumer</button>
+    </div>
+    <div class=form-break></div>
+    <hr>
+</div>
+
+<!-- Removing Roles -->
+<h2>Remove Accounts from Roles</h2>
+<h4>Remove Farmer</h4>
+<div class="form-group">
+    <br>
+    <button class="btn-buy" id="button" type="button" data-id="5" onClick="App.renounceFarmer()">Remove Current Address From Farmer</button>  
+</div>
+<h4>Remove Distributor</h4>
+<div class=form-group> 
+    <br>
+    <button class="btn-buy" id="button" type="button" data-id="5" onClick="App.renounceDistributor()">Remove Current Address From Distributor</button>  
+</div>
+<h4>Remove Retailer</h4>
+<div class=form-group>
+    <br>
+    <button class="btn-receive" id="button" type="button" data-id="7" onClick="App.renounceRetailer()">Remove Current Address From Retailer</button>
+</div>
+<h4>Remove Consumer</h4>
+<div class=form-group>
+    <br>
+    <button class="btn-purchase" id="button" type="button" data-id="8" onClick="App.renounceConsumer()">Remove Current Address From Consumer</button>
+</div>
+<div class=form-break></div>
+<hr>
+</div>
 
     <h2>Transaction History<span id="ftc-history"></span></h2>
     <div>

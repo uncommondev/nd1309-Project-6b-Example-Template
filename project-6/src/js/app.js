@@ -38,6 +38,11 @@ App = {
         App.distributorID = $("#distributorID").val();
         App.retailerID = $("#retailerID").val();
         App.consumerID = $("#consumerID").val();
+        // Roles
+        App.farmerRoleId = $("#farmerRoleId").val();
+        App.distributorRoleId = $("#distributorRoleId").val();
+        App.retailerRoleId = $("#retailerRoleId").val();
+        App.consumerRoleId = $("#consumerRoleId").val();
 
         console.log(
             App.sku,
@@ -52,7 +57,11 @@ App = {
             App.productPrice, 
             App.distributorID, 
             App.retailerID, 
-            App.consumerID
+            App.consumerID,
+            App.farmerRoleId,
+            App.distributorRoleId,
+            App.retailerRoleId,
+            App.consumerRoleId
         );
     },
 
@@ -161,6 +170,30 @@ App = {
                 break;
             case 10:
                 return await App.fetchItemBufferTwo(event);
+                break;
+            case 11:
+                return await App.addFarmer(event);
+                break;
+            case 12:
+                return await App.addDistributor(event);
+                break;
+            case 13:
+                return await App.addRetailer(event);
+                break;
+            case 14:
+                return await App.addConsumer(event);
+                break;
+            case 15:
+                return await App.renounceFarmer(event);
+                break;
+            case 16:
+                return await App.renounceDistributor(event);
+                break;
+            case 17:
+                return await App.renounceRetailer(event);
+                break;
+            case 18:
+                return await App.renounceConsumer(event);
                 break;
             }
     },
@@ -291,6 +324,114 @@ App = {
         }).catch(function(err) {
             console.log(err.message);
         });
+    },
+
+    // Add
+
+    addFarmer: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addFarmer(App.farmerRoleId, {from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('addFarmer',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    addDistributor: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addDistributor(App.distributorRoleId, {from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('addDistributor',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    addRetailer: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addRetailer(App.retailerRoleId, {from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('addRetailer',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    addConsumer: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.addConsumer(App.consumerRoleId, {from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('addConsumer',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    // Remove Role
+
+    renounceFarmer: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.renounceFarmer({from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('renounceFarmer',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    renounceDistributor: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.renounceDistributor({from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('renounceDistributor',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    renounceRetailer: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.renounceRetailer({from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('renounceRetailer',result);
+        }).catch(function(error){
+            console.log(error);
+        })
+    },
+
+    renounceConsumer: function (event) {
+        event.preventDefault();
+
+        App.contracts.SupplyChain.deployed().then(function(instance) {
+            return instance.renounceConsumer({from: App.metamaskAccountID});
+        }).then(function(result) {
+            $("#ftc-item").text(result);
+            console.log('renounceConsumer',result);
+        }).catch(function(error){
+            console.log(error);
+        })
     },
 
     fetchItemBufferOne: function () {
